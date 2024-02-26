@@ -1,0 +1,122 @@
+import random
+from datetime import datetime
+
+'''
+projekt_2.py: druhý projekt do Engeto Online Python Akademie
+
+author: Roman Pečimúth
+email: roman.pecimuth@seznam.cz
+discord: 
+
+'''
+
+
+
+# while cyklus pro unikatni cislo , nezacinajici nulou. 
+# Převedení na set() v podmínce pro neopakující se cifry. 
+hadane_cislo = str()
+while True:
+        random_num = random.randint(1000, 9999)
+        str_cislo = str(random_num)
+        
+        # Kontrola, zda nezačíná nulou
+        if str_cislo[0] != "0":
+            # Kontrola, zda má 4 unikátní cifry
+            if len(set(str_cislo)) == 4:
+                hadane_cislo = str_cislo
+                break
+
+oddelovac = "--" * 25      # oddělení textu
+pocet_hadani = 0        # proměnná která uchovává počet pokusů hádání. 
+
+#print(hadane_cislo)   # <----  pro kontrolu, hádané číslo
+
+print("Hi there!")
+
+print(oddelovac)
+print("I've generated a random 4 digit number for you.\nLet's play a bulls and cows game.")
+print(oddelovac)
+print("Enter a number: ")
+print(oddelovac)
+
+# zacatek casomiry . 
+zacatek_casomiry = datetime.now()
+
+# While cyklus, pokud číslo není uhodnuto, cyklus se opakuje , když bude uhodnuto v podmínce níže mám _break_.
+while True:
+    # bulls and cows pocet
+    shodne_misto_cisla = []
+    neshoda_misto_cisla = []
+    
+    #vstup a pocet hadani +1 
+
+    vstupni_cislo = input(">>> ")    
+    
+    pocet_hadani += 1
+    
+    if not vstupni_cislo.isdigit() or len(set(vstupni_cislo)) != 4:
+        print("zadávej pouze 4-místná unikátní čísla. ")
+        print(oddelovac)
+        continue
+    
+    #print(oddelovac)
+    #print(">>>",int(vstupni_cislo))
+    
+    # iterace pres hadane cislo a vstupni cislo a pridavani do shodneho a neshodneho cisla "bulls" a "cows"
+    if int(hadane_cislo) != int(vstupni_cislo):   
+         for cislo1, cislo2 in (zip(hadane_cislo, vstupni_cislo)):
+            if cislo1 == cislo2:
+                shodne_misto_cisla.append(cislo1)
+                
+            elif cislo1 != cislo2 in hadane_cislo and vstupni_cislo:
+                neshoda_misto_cisla.append(cislo1)
+    
+    
+    if vstupni_cislo == hadane_cislo: #pokud se hádané číslo shoduje s uživatelovo číslem.
+        # vypíše , uživatelovu shodu s hádaným číslem a počet pokusů které zadal. 
+        
+        print(f"Correct, you've guessed the right number in {pocet_hadani} guesses!")
+        print(oddelovac)
+        # podmínky s počtem pokusů hádání, následný výpis úspěchu při hádání, podle počtu.
+        if pocet_hadani <= 3:
+            print("That's amazing")
+        elif 3 < pocet_hadani <= 6:
+            print("That's average")
+        elif 6 < pocet_hadani <= 12:
+            print("That's not bad")
+        elif pocet_hadani > 12:
+            print("That's not good")
+        
+        konec_casomiry = datetime.now()     # konec pocitani casu.
+        # výpočet času , minuty a sekundy. 
+        cas_trvani = konec_casomiry - zacatek_casomiry
+        celkove_sekundy = int(cas_trvani.total_seconds())
+        cas_minuty = celkove_sekundy // 60
+        cas_sekundy = celkove_sekundy % 60
+        
+        if cas_minuty < 1 and cas_sekundy > 5:
+            print(f"\nStrávený čas ve hře: {cas_minuty} minut, {cas_sekundy} sekund")
+            print(oddelovac)
+        elif cas_minuty == 0 and cas_sekundy > 1 or cas_sekundy < 5:
+            print(f"\nStrávený čas ve hře: {cas_minuty} minut, {cas_sekundy} sekundy")
+            print(oddelovac)
+        elif 4 > cas_minuty >= 2 and cas_sekundy < 4:
+            print(f"\nStrávený čas ve hře: {cas_minuty} minuty, {cas_sekundy} sekund")
+            print(oddelovac)
+        else:
+            print(f"\nStrávený čas ve hře: {cas_minuty} minut, {cas_sekundy} sekund")
+            print(oddelovac)
+        
+        break       
+    
+    # výpis podle počtů bull nebo bulls , cow nebo cows .     
+    if len(shodne_misto_cisla) == 1 and len(neshoda_misto_cisla)  == 1:
+        print(f"{len(shodne_misto_cisla)} bull, {len(neshoda_misto_cisla)} cow")
+    elif len(shodne_misto_cisla) == 1:
+        print(f"{len(shodne_misto_cisla)} bull, {len(neshoda_misto_cisla)} cows")
+    elif len(neshoda_misto_cisla) == 1:
+        print(f"{len(shodne_misto_cisla)} bulls, {len(neshoda_misto_cisla)} cow")
+    else:
+        print(f"{len(shodne_misto_cisla)} bulls, {len(neshoda_misto_cisla)} cows")
+    
+    print(oddelovac)
